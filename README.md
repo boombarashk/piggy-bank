@@ -1,10 +1,38 @@
-# Getting Started with Create React App
+# Приложение по учету расходов
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ТЗ:
+SPA-приложение, интерфейс для настройки, учета и визуализации расходов.
+Требуется создать страницу с 3мя разделами: Категории, Расходы*, Диаграмма
 
-## Available Scripts
+## Категории
 
-In the project directory, you can run:
+В отсутствие данных выводится кнопка "Добавить категорию".
+При наличие данных под кнопкой отображается список, представляющий собой легенду к диаграмме трат - прямоугольник цвета категории на диаграмме и название**
+
+## Расходы
+## Диаграмма
+
+* в дальнейшем этот раздел расшириться за счет более, чем 1 года
+** цвета выставляются автоматически, в дальнейшем можно добавить функционал выбора цвета
+
+## Данные приложения
+
+Хранятся в директории с приложением.
+Алгоритм действий:
+ - Проверяем существование файла public/data/[год].json. Если файла текущего года нет — создаем пустой объект и сохраняем его.
+ - Если файл существует — считываем его и записываем в Redux Store.
+ - Реагируем на событие кнопки сохранения и обновляем хранящийся объект в локальном хранилище браузера.
+
+Компонент DataManager проверяет наличие файла и сохраняет изменения в localStorage.
+
+Структура следующая:
+1. файл categories.json сохраняет категории расходов. Данные имеют вид [hashid]: {name: 'Название категории', color: #ddd}
+Название обязательно, цвет - нет (для отображения на диаграмме)
+2. 2025.json [номер месяца]: {[hashid категории]: сумма}
+
+## DEPRECATED Create React App
+
+Инструкция по миграции на next с [Create React App](https://nextjs.org/docs/app/guides/migrating/from-create-react-app).
 
 ### `npm start`
 
@@ -28,22 +56,6 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
 
 ### Code Splitting
 
