@@ -1,7 +1,7 @@
 // src/DataManager.js
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { APP_NAME, PIGGY_BANK_CATEGORIES, PIGGY_BANK_DATA } from './consts';
+import { APP_NAME, PIGGY_BANK_CATEGORIES, PIGGY_BANK_DATA } from '../consts';
 
 const DataManager = () => {
   const dispatch = useDispatch();

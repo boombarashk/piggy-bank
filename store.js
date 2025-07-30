@@ -18,5 +18,3 @@ export const store = configureStore({
     }
   },
 });
-
-window.state = store

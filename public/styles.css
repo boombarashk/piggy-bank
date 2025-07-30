@@ -1,10 +1,15 @@
 @import "./variables.css";
 
 body {
-    background-color: var(--dark-color);
     font-family: Istok Web, Arial, sans-serif;
     margin: 0;
     padding: 0;
+}
+
+body > div {
+    background-color: var(--dark-color);
+    height: 100vh;
+    overflow-y: hidden;
 }
 
 code {
@@ -16,9 +21,9 @@ code {
     min-width: 640px;
 	min-height: 100vh;
     margin: 0 auto;
-	padding: 0 32px;
+	padding: 3rem 32px 1rem;
     background-color: var(--white-color);
-    /*border-radius: 8px;*/
+    
 }
 
 .content {

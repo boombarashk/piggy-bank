@@ -1,13 +1,11 @@
 import { useState } from "react"
-import { saveJsonToFile } from "../../utils/savejsontofile"
+import { saveJsonToFile } from "@/utils/savejsontofile"
 
-import Button from "../Button/Button"
-import Dialog, {handlerOpenDialogModal } from "../Dialog/Dialog"
+import {ID_DIALOG_ADD_PROPERTY, CATEGORIES_FILENAME} from '../../consts'
+import Button from "@/components/Button/Button"
+import Dialog, {handlerOpenDialogModal } from "@/components/Dialog/Dialog"
 
 import styles from './Categories.module.css'
-
-const CATEGORIES_FILENAME = 'categories.json'
-const ID_DIALOG_ADD_PROPERTY = 'add-category'
 
 function Categories() {
     const [newCategory, setNewCategory] = useState('')
