@@ -11,6 +11,11 @@
 # production
 /build
 
+/public/storage
+
+.next
+next-env.d.ts
+
 # misc
 .DS_Store
 .env.local
