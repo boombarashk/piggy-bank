@@ -1,20 +1,14 @@
 // базовая конфигурация хранилища
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import categoriesReducer from '@/services/reducers/categories'
+import dataReducer from '@/services/reducers/data'
 
-const initialState = {
-  category: {},
-  data: {},
-};
+const rootReducer = combineReducers({
+  categories: categoriesReducer,
+  data: dataReducer
+})
 
 export const store = configureStore({
-  reducer: (state = initialState, action) => {
-    switch(action.type) {
-      //todo add scategory
-      case 'SET_DATA':
-        return {...state, data: action.payload };
-      //todo add expense by category
-      default:
-        return state;
-    }
-  },
+  reducer: rootReducer,
+  // middleware
 });

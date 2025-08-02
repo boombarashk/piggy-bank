@@ -6,7 +6,7 @@
     "allowJs": true,
             "paths": {
               "@/components/*": ["./components/*"],
-              "@/utils/*": ["./utils/*"],
+              "@/services/*": ["./services/*"],
             },
           },
   //"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
