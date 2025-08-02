@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_DATA_URL, CATEGORIES_FILENAME } from '../../consts';
-import { saveJsonToFile } from "../savejsontofile";
 
 export const getCategoriesData = createAsyncThunk(
   `categories/get`,
