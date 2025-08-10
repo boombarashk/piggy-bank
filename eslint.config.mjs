@@ -17,6 +17,7 @@ export default defineConfig([
       "no-unused-vars": "warn",
       "no-undef": "warn",
       "react/react-in-jsx-scope": 0,
+      "react/prop-types": "warn",
     },
   },
 ]);

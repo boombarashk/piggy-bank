@@ -10,6 +10,7 @@ import {
   saveCategories,
 } from "@/services/reducers/categories";
 import styles from "./Categories.module.css";
+import DefinitionList from "@/components/DefinitionList/DefinitionList";
 
 function Categories() {
   const [newCategory, setNewCategory] = useState("");
@@ -33,20 +34,21 @@ function Categories() {
 
   return (
     <div className="tab-content">
-      {categories.length === 0 && <p>Нет данных.</p>}
-
-      {categories.length > 0 && <p>{JSON.stringify(categories)}</p>}
+      {categories?.length === 0 && <p>Нет данных.</p>}
 
       <Button
         text="Добавить категорию"
         clickHandler={() => handlerOpenDialogModal(ID_DIALOG_ADD_PROPERTY)}
       />
 
+      {categories?.length > 0 && <DefinitionList data={categories} />}
+
       <Dialog
         id={ID_DIALOG_ADD_PROPERTY}
-        okHandler={() =>
-          handleSave(newCategory /*todo clear Input  // new Date().toString()*/)
-        }
+        okHandler={() => {
+          handleSave(newCategory);
+          setNewCategory("");
+        }}
         text={"Сохранить"}>
         <p>Название категории:</p>
         <input

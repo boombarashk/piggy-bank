@@ -33,3 +33,7 @@
 .tab.disabled {
   color: var(--disabled-color);
 }
+.tab a {
+  color: var(--dark-color);
+  text-decoration: none;
+}

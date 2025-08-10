@@ -8,3 +8,11 @@ export const CATEGORIES_FILENAME = "categories";
 export const DATA_FILENAME = "data";
 
 export const ID_DIALOG_ADD_PROPERTY = "add-category";
+
+export const DEFAULT_COLORS = [
+  "blue",
+  "lightgray",
+  "lightgreen",
+  "lightyellow",
+  "orangered",
+];

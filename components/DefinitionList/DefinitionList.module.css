@@ -1,0 +1,29 @@
+dl.list {
+  display: block;
+}
+
+dl.list dt {
+  float: left;
+  clear: both;
+  width: 48px;
+}
+dl.list dd {
+  margin-left: 48px;
+  box-sizing: border-box;
+  width: calc(100% - 48px);
+  line-height: 2rem;
+}
+
+.mark {
+  position: relative;
+  top: 0.2rem;
+  left: 4px;
+  display: inline-block;
+  height: 1.32rem;
+  width: 2rem;
+  cursor: pointer;
+}
+
+.picker {
+  display: inline-block;
+}

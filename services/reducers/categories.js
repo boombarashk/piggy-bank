@@ -30,7 +30,12 @@ const initialState = { data: [] };
 const categoriesSlice = createSlice({
   name: "categories",
   initialState,
-  reducers: {},
+  reducers: {
+    setColorByIndex(state, action) {
+      const { color, index } = action.payload;
+      state.data[index].color = color;
+    },
+  },
   extraReducers(builder) {
     builder.addCase(getCategoriesData.rejected, () => {
       //console.error
@@ -45,4 +50,5 @@ const categoriesSlice = createSlice({
   },
 });
 
+export const { setColorByIndex } = categoriesSlice.actions;
 export default categoriesSlice.reducer;
