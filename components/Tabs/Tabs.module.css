@@ -1,37 +1,35 @@
-
-
 .tabs {
-    display: flex;
-    border-bottom: 1px solid var(--dark-color);
-    padding: 0;
+  display: flex;
+  border-bottom: 1px solid var(--dark-color);
+  padding: 0;
 }
 
 .tab {
-    font-size: 24px;
-    border: none;
-    padding: 12px 12px 4px;
-    background:transparent;
+  font-size: 24px;
+  border: none;
+  padding: 12px 12px 4px;
+  background: transparent;
 }
 .tab:not(.disabled) {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .tab.active {
-	paint-order: stroke fill;
-    color: var(--dark-color);
-	/*text-anchor:middle;
+  paint-order: stroke fill;
+  color: var(--dark-color);
+  /*text-anchor:middle;
     background-color: #212271;*/
 }
 .tab:nth-child(1).active {
-	-webkit-text-stroke: 24px var(--first-color-03);
+  -webkit-text-stroke: 24px var(--first-color-03);
 }
 .tab:nth-child(2).active {
-	-webkit-text-stroke: 24px var(--apply-color-03);
+  -webkit-text-stroke: 24px var(--apply-color-03);
 }
 .tab:nth-child(3).active {
-	-webkit-text-stroke: 24px var(--third-color-03);
+  -webkit-text-stroke: 24px var(--third-color-03);
 }
 
 .tab.disabled {
-    color: var(--disabled-color);
+  color: var(--disabled-color);
 }

@@ -11,7 +11,8 @@
 # production
 /build
 
-/public/storage
+/public/storage/
+package-lock.json
 
 .next
 next-env.d.ts

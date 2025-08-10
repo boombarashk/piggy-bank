@@ -1,17 +1,17 @@
 .btn {
-    background-color: var(--first-color);
-    color: var(--white-color);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+  background-color: var(--first-color);
+  color: var(--white-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
 }
 
 .btn:not(:disabled) {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .outlined {
-    background-color: var(--white-color);
-    color: var(--dark-color);
-    border: 1px solid var(--first-color);
+  background-color: var(--white-color);
+  color: var(--dark-color);
+  border: 1px solid var(--first-color);
 }

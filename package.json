@@ -18,7 +18,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "npx serve@latest ./build"
+    "start": "npx serve@latest ./build",
+    "lint": "eslint .",
+    "prettier": "npx prettier . --write"
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +41,11 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.3.0",
+    "prettier": "3.6.2",
     "prop-types": "^15.8.1"
   }
 }

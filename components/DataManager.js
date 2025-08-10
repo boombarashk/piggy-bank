@@ -1,7 +1,7 @@
 // src/DataManager.js
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { APP_NAME, PIGGY_BANK_CATEGORIES, PIGGY_BANK_DATA } from '../consts';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { APP_NAME, PIGGY_BANK_CATEGORIES, PIGGY_BANK_DATA } from "../consts";
 
 const DataManager = () => {
   const dispatch = useDispatch();
@@ -11,16 +11,16 @@ const DataManager = () => {
   // todo обеспечить проверку наличия, чтение из файлов и сохранения в файл
   const loadInitialData = (propName) => {
     let savedData = localStorage.getItem(propName);
-    if (!savedData || savedData === '') {
+    if (!savedData || savedData === "") {
       // Файл отсутствует, создаём пустой объект данных
-      savedData = '{}';
+      savedData = "{}";
       localStorage.setItem(propName, savedData);
     }
     try {
       const parsedData = JSON.parse(savedData);
       // если 'app-data' то SET_DATA
-      dispatch({ type: 'SET_DATA', payload: parsedData });
-    } catch(e) {
+      dispatch({ type: "SET_DATA", payload: parsedData });
+    } catch (e) {
       console.error("Ошибка парсинга данных:", e.message);
     }
   };
@@ -33,10 +33,9 @@ const DataManager = () => {
 
   useEffect(() => {
     // Загружаем начальные данные при монтировании компонента
-    [
-      PIGGY_BANK_CATEGORIES,
-      PIGGY_BANK_DATA
-    ].forEach(propName => loadInitialData(propName));
+    [PIGGY_BANK_CATEGORIES, PIGGY_BANK_DATA].forEach((propName) =>
+      loadInitialData(propName),
+    );
   }, []);
 
   return (
@@ -46,6 +45,6 @@ const DataManager = () => {
       <button onClick={saveChanges}>Сохранить</button>
     </div>
   );
-}
+};
 
 export default DataManager;

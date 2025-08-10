@@ -1,14 +1,14 @@
 {
-          "compilerOptions": {
-            //"baseUrl": ".",
-            "target": "es5",
+  "compilerOptions": {
+    //"baseUrl": ".",
+    "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-            "paths": {
-              "@/components/*": ["./components/*"],
-              "@/services/*": ["./services/*"],
-            },
-          },
+    "paths": {
+      "@/components/*": ["./components/*"],
+      "@/services/*": ["./services/*"]
+    }
+  },
   //"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-        }
+  "exclude": ["node_modules"]
+}

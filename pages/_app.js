@@ -1,5 +1,5 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React from "react";
+import { Provider } from "react-redux";
 /*import ReactDOM from 'react-dom/client';
 
 import App from '../App';
@@ -17,19 +17,18 @@ root.render(
 //import RootLayout from '@/components/Layout';
 
 import { store } from "../store";
-import RootLayout from './layout';
-import Tabs from '@/components/Tabs/Tabs';
+import RootLayout from "./layout";
+import Tabs from "@/components/Tabs/Tabs";
 
 export default function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      
       <RootLayout>
-      <Tabs/>
+        <Tabs />
 
-      <div className="content">
-        <Component {...pageProps} />
-      </div>
+        <div className="content">
+          <Component {...pageProps} />
+        </div>
       </RootLayout>
     </Provider>
   );

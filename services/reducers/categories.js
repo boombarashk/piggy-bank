@@ -1,32 +1,34 @@
-import axios from 'axios';
+import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { API_DATA_URL, CATEGORIES_FILENAME } from '../../consts';
+import { API_DATA_URL, CATEGORIES_FILENAME } from "../../consts";
 
 export const getCategoriesData = createAsyncThunk(
   `categories/get`,
   async () => {
-    const response = await axios.get(API_DATA_URL, {params: { filename: CATEGORIES_FILENAME }});
+    const response = await axios.get(API_DATA_URL, {
+      params: { filename: CATEGORIES_FILENAME },
+    });
     return response.data;
-  }
+  },
 );
 
 // Сохранение новых данных в файл путем отправки POST-запроса
 export const saveCategories = createAsyncThunk(
-  'categories/save',
+  "categories/save",
   async (data) => {
     // Отправляем новый список категорий методом POST
     await axios.post(API_DATA_URL, {
       filename: CATEGORIES_FILENAME,
-      data
+      data,
     });
     return data;
-  }
+  },
 );
 
-const initialState = { data: [] }
+const initialState = { data: [] };
 
 const categoriesSlice = createSlice({
-  name: 'categories',
+  name: "categories",
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -37,11 +39,10 @@ const categoriesSlice = createSlice({
       state.data = action.payload.data;
     });
     builder.addCase(saveCategories.fulfilled, (state, action) => {
-      console.log(action)
+      console.log(action);
       state.data = action.payload.data;
     });
   },
-  }
-)
+});
 
-export default categoriesSlice.reducer
+export default categoriesSlice.reducer;
