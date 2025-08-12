@@ -12,7 +12,7 @@ import {
 
 import styles from "./DefinitionList.module.css";
 
-const DefinitionList = ({ data }) => {
+const DefinitionList = ({ data = [] }) => {
   const dispatch = useDispatch();
   const picker = useRef();
 
@@ -72,9 +72,6 @@ DefinitionList.propTypes = {
       color: PropTypes.string,
     }),
   ).isRequired,
-};
-DefinitionList.defaultProps = {
-  data: [],
 };
 
 export default DefinitionList;

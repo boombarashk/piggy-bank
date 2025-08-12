@@ -5,26 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { ID_DIALOG_ADD_PROPERTY } from "../../consts";
 import Button from "@/components/Button/Button";
 import Dialog, { handlerOpenDialogModal } from "@/components/Dialog/Dialog";
-import {
-  getCategoriesData,
-  saveCategories,
-} from "@/services/reducers/categories";
+import { saveCategories } from "@/services/reducers/categories";
 import styles from "./Categories.module.css";
 import DefinitionList from "@/components/DefinitionList/DefinitionList";
+import NoData from "@/components/NoData/NoData";
 
 function Categories() {
   const [newCategory, setNewCategory] = useState("");
 
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.data);
+  const loaded = useSelector((state) => state.loaded);
 
-  useEffect(() => {
-    // Запрашиваем категории при загрузке страницы
-    dispatch(getCategoriesData());
-  }, []);
-
-  const handleSave = (category) => {
-    // Отправка списка категорий на сервер
+  // Отправка списка категорий в файл
+  const handleSaveCategories = (category) => {
     dispatch(
       saveCategories({
         data: [...categories, { id: uuidv4(), name: category }],
@@ -34,7 +28,7 @@ function Categories() {
 
   return (
     <div className="tab-content">
-      {categories?.length === 0 && <p>Нет данных.</p>}
+      {loaded && categories?.length === 0 && <NoData />}
 
       <Button
         text="Добавить категорию"
@@ -46,7 +40,7 @@ function Categories() {
       <Dialog
         id={ID_DIALOG_ADD_PROPERTY}
         okHandler={() => {
-          handleSave(newCategory);
+          handleSaveCategories(newCategory);
           setNewCategory("");
         }}
         text={"Сохранить"}>

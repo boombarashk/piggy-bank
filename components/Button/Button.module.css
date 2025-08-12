@@ -5,7 +5,9 @@
   padding: 10px 20px;
   border-radius: 8px;
 }
-
+.btn:disabled {
+  background-color: var(--disabled-color);
+}
 .btn:not(:disabled) {
   cursor: pointer;
 }

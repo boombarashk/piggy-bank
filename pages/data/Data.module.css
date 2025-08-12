@@ -1,0 +1,30 @@
+.grid {
+  display: grid;
+  margin-top: 2rem;
+}
+
+.header,
+.cell {
+  border: 1px solid var(--dark-color);
+  padding: 8px;
+  text-align: center;
+}
+
+.expense_form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.input,
+.select {
+  align-self: normal;
+  border-radius: 4px;
+}
+.input:not(:disabled) {
+  border: 1px solid var(--first-color);
+  color: var(--first-color);
+}
+.select:not(:disabled) {
+  border: 1px solid var(--first-color);
+}

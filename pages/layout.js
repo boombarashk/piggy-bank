@@ -1,6 +1,16 @@
+import React, { useEffect } from "react";
 import Head from "next/head";
+import { useDispatch } from "react-redux";
+
+import { getCategoriesData } from "@/services/reducers/categories";
 
 export default function RootLayout({ children }) {
+  const dispatch = useDispatch();
+  // Запрашиваем категории при загрузке страницы
+  useEffect(() => {
+    dispatch(getCategoriesData());
+  }, []);
+
   return (
     <>
       <Head>

@@ -25,7 +25,7 @@ export const saveCategories = createAsyncThunk(
   },
 );
 
-const initialState = { data: [] };
+const initialState = { data: [], loaded: false };
 
 const categoriesSlice = createSlice({
   name: "categories",
@@ -37,14 +37,15 @@ const categoriesSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(getCategoriesData.rejected, () => {
+    builder.addCase(getCategoriesData.rejected, (state) => {
+      state.loaded = true;
       //console.error
     });
     builder.addCase(getCategoriesData.fulfilled, (state, action) => {
+      state.loaded = true;
       state.data = action.payload.data;
     });
     builder.addCase(saveCategories.fulfilled, (state, action) => {
-      console.log(action);
       state.data = action.payload.data;
     });
   },

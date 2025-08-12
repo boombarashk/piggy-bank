@@ -16,3 +16,34 @@ export const DEFAULT_COLORS = [
   "lightyellow",
   "orangered",
 ];
+
+//export const formatterMonth = new Intl.DateTimeFormat('ru-RU', { month: 'long' });
+// Получаем полное название месяца const monthName = formatterMonth.format(date);
+export const MONTHS_RU = [
+  "Январь",
+  "Февраль",
+  "Март",
+  "Апрель",
+  "Май",
+  "Июнь",
+  "Июль",
+  "Август",
+  "Сентябрь",
+  "Октябрь",
+  "Ноябрь",
+  "Декабрь",
+];
+export const MONTHS_RU_SHORT = [
+  "янв.",
+  "февр.",
+  "март",
+  "апр.",
+  "май",
+  "июнь",
+  "июль",
+  "авг.",
+  "сент.",
+  "окт.",
+  "нояб.",
+  "дек.",
+];
