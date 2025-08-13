@@ -1,14 +1,16 @@
 import { v4 as uuidv4 } from "uuid";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { ID_DIALOG_ADD_PROPERTY } from "../../consts";
 import Button from "@/components/Button/Button";
 import Dialog, { handlerOpenDialogModal } from "@/components/Dialog/Dialog";
-import { saveCategories } from "@/services/reducers/categories";
-import styles from "./Categories.module.css";
 import DefinitionList from "@/components/DefinitionList/DefinitionList";
 import NoData from "@/components/NoData/NoData";
+import { saveCategories } from "@/services/reducers/categories";
+import useData from "@/services/useData";
+
+import styles from "./Categories.module.css";
 
 function Categories() {
   const [newCategory, setNewCategory] = useState("");
@@ -16,6 +18,7 @@ function Categories() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.data);
   const loaded = useSelector((state) => state.loaded);
+  useData();
 
   // Отправка списка категорий в файл
   const handleSaveCategories = (category) => {

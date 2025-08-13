@@ -31,7 +31,3 @@ SPA-приложение, интерфейс для настройки, учет
 
 1. файл categories.json сохраняет категории расходов. Данные имеют вид массив data, каждый элемент которого - структура вида {id: [hashid], name: 'Название категории', color?: #ddd}
 2. файл data.json содержит данные по годам [номер месяца]: {[hashid категории]: сумма}
-
-## DEPRECATED Create React App
-
-Инструкция по миграции на next с [Create React App](https://nextjs.org/docs/app/guides/migrating/from-create-react-app).

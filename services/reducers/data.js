@@ -1,7 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_DATA_URL, DATA_FILENAME } from "../../consts";
-import { act } from "react";
 
 export const getData = createAsyncThunk(`data/get`, async () => {
   const response = await axios.get(API_DATA_URL, {

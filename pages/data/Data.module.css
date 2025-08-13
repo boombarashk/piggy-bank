@@ -1,13 +1,20 @@
 .grid {
   display: grid;
   margin-top: 2rem;
+  box-sizing: border-box;
 }
 
+.header {
+  background-color: var(--apply-color);
+}
 .header,
 .cell {
-  border: 1px solid var(--dark-color);
+  border: 1px solid var(--white-color);
   padding: 8px;
   text-align: center;
+}
+.lightgreen {
+  background-color: var(--apply-color-01);
 }
 
 .expense_form {
@@ -27,4 +34,12 @@
 }
 .select:not(:disabled) {
   border: 1px solid var(--first-color);
+}
+
+.total {
+  border-top: 1px solid var(--dark-color);
+  font-weight: bold;
+  text-align: center;
+  line-height: 2rem;
+  font-size: 1.2rem;
 }

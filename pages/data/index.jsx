@@ -1,14 +1,16 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { MONTHS_RU } from "../../consts";
-import { addExpense, getData, saveData } from "@/services/reducers/data";
+import { CURRENT_MONTH_IND, MONTHS_RU, formatter } from "../../consts";
+import { addExpense, saveData } from "@/services/reducers/data";
 import Button from "@/components/Button/Button";
 import NoData from "@/components/NoData/NoData";
+import useData from "@/services/useData";
 
 import styles from "./Data.module.css";
 
 function Expenses() {
+  const dispatch = useDispatch();
   const monthRef = useRef();
   const categoryRef = useRef();
   const sumRef = useRef();
@@ -16,20 +18,12 @@ function Expenses() {
   const data = useSelector((state) => state.data);
   const categories = useSelector((state) => state.categories.data);
 
-  const year = `${new Date().getFullYear()}`;
+  const { noEmptyCategories, year, yearsCount, monthsCount, byMonths } =
+    useData();
+
   const expenses = data?.[year];
-  const yearsCount = (!!expenses && Object.keys(data).length) || 0;
-  const monthsCount =
-    (yearsCount > 0 && !!expenses && Object.keys(expenses).length) || 0;
-  const currentMonthInd = `${new Date().getMonth()}`;
 
-  const dispatch = useDispatch();
-  //TODO filter categories no empty data
-  useEffect(() => {
-    dispatch(getData());
-  }, []);
-
-  // Сохранениие данных в файл
+  // Сохранение данных в файл
   const handleSave = useCallback(() => {
     //todo check sumRef valid
     const newData = addExpense({
@@ -61,7 +55,7 @@ function Expenses() {
             name="month"
             className={styles.select}
             ref={monthRef}
-            defaultValue={currentMonthInd}>
+            defaultValue={CURRENT_MONTH_IND}>
             {MONTHS_RU.map((month, ind) => (
               <option key={month} value={`${ind}`}>
                 {month.toLowerCase()}
@@ -104,8 +98,6 @@ function Expenses() {
           />
         </form>
 
-        {/*JSON.stringify(categories)*/}
-
         {yearsCount > 0 && monthsCount > 0 && (
           <div
             className={styles.grid}
@@ -119,18 +111,32 @@ function Expenses() {
               </div>
             ))}
 
-            {categories.map((category) => (
+            {noEmptyCategories.map((category, ind) => {
+              const cellClassName = `${styles.cell} ${ind % 2 === 1 ? styles.lightgreen : ""}`;
+              return (
+                <>
+                  <div className={cellClassName}>{category.name}</div>
+                  {Object.keys(expenses).map((monthInd) => (
+                    <div
+                      className={cellClassName}
+                      key={`${category.id}-${monthInd}`}>
+                      {expenses?.[monthInd]?.[category.id]}
+                    </div>
+                  ))}
+                </>
+              );
+            })}
+
+            {byMonths && Object.keys(byMonths) && (
               <>
-                <div className={styles.cell}>{category.name}</div>
-                {Object.keys(expenses).map((monthInd) => (
-                  <div
-                    className={styles.cell}
-                    key={`${category.id}-${monthInd}`}>
-                    {expenses?.[monthInd]?.[category.id]}
+                <div className={styles.total} />
+                {Object.values(byMonths).map((totalMonth, ind) => (
+                  <div className={styles.total} key={`total-${ind}`}>
+                    {formatter.format(totalMonth)}
                   </div>
                 ))}
               </>
-            ))}
+            )}
           </div>
         )}
       </div>

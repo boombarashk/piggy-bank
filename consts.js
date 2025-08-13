@@ -47,3 +47,14 @@ export const MONTHS_RU_SHORT = [
   "нояб.",
   "дек.",
 ];
+
+export const CURRENT_MONTH_IND = `${new Date().getMonth()}`;
+
+export const formatter = new Intl.NumberFormat("ru-RU", {
+  style: "currency",
+  currency: "RUB",
+  // Optional: currencyDisplay can be 'symbol' (default), 'name', or 'code'
+  // currencyDisplay: 'symbol', // '123 456,79 руб.' (default for ru-RU)
+  // currencyDisplay: 'name',   // '123 456,79 российских рублей'
+  // currencyDisplay: 'code',   // '123 456,79 RUB'
+});
