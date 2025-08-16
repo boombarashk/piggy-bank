@@ -47,7 +47,7 @@ function Expenses() {
 
   return (
     <>
-      {(loaded && (!expenses || yearsCount === 0)) && <NoData />}
+      {loaded && (!expenses || yearsCount === 0) && <NoData />}
 
       <div id="expenses" className="tab-content active">
         <form className={styles.expense_form}>

@@ -44,7 +44,7 @@ export const addExpense = ({ data = {}, month, year, categoryId, sum }) => {
       ...currentExpenses,
       [month]: {
         ...currentMonthExpenses,
-        [categoryId]: sumInCategory + +sum,
+        [categoryId]: +(sumInCategory + +sum).toFixed(2),
       },
     },
   };

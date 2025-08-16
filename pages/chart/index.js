@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie } from "react-chartjs-2";
 
-import { CURRENT_MONTH_IND, MONTHS_RU, MONTHS_RU_SHORT } from "../../consts";
+import { CURRENT_MONTH_IND, MONTHS_RU_SHORT } from "../../consts";
 import useData from "@/services/useData";
 import NoData from "@/components/NoData/NoData";
 import SubTabs from "@/components/SubTabs/SubTabs";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Chart = () => {
   const data = useSelector((state) => state.data);
@@ -16,14 +19,20 @@ const Chart = () => {
 
   if (!expenses) return <NoData />;
 
-  const expenseInMonth = Object.entries(expenses[selectedMonth]).map(
-    ([categoryId, value]) => {
-      const category = noEmptyCategories.find(
-        (caterory) => caterory.id === categoryId,
-      );
-      return { name: category.name, value, color: colors[category.id] };
-    },
-  );
+  const expenseInMonth = {
+    labels: Object.keys(expenses[selectedMonth]).map(
+      (categoryId) =>
+        noEmptyCategories.find((caterory) => caterory.id === categoryId).name,
+    ),
+    datasets: [
+      {
+        data: Object.values(expenses[selectedMonth]),
+        backgroundColor: Object.keys(expenses[selectedMonth]).map(
+          (categoryId) => colors[categoryId],
+        ), //fixme
+      },
+    ],
+  };
 
   return (
     <>
@@ -38,22 +47,8 @@ const Chart = () => {
         }))}
       />
 
-      <div id="chart" className="tab-content">
-        <PieChart width={800} height={400}>
-          <Pie
-            data={expenseInMonth}
-            cy={200}
-            labelLine={false}
-            label={({ name }) => name}
-            outerRadius={120}
-            fill="#8884d8"
-            dataKey="value">
-            {expenseInMonth.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
+      <div id="chart" style={{ maxHeight: 360 }}>
+        <Pie data={expenseInMonth} />
       </div>
     </>
   );
