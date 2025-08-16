@@ -17,7 +17,7 @@ function Categories() {
 
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.data);
-  const loaded = useSelector((state) => state.loaded);
+  const loaded = useSelector((state) => state.categories.loaded);
   useData();
 
   // Отправка списка категорий в файл

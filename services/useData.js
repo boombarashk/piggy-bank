@@ -6,14 +6,7 @@ import { getCategoriesData } from "./reducers/categories";
 import { getData } from "./reducers/data";
 
 const useData = () => {
-  const [total, setTotal] = useState({
-    noEmptyCategories: [],
-    //byCategories: {},
-    //byMonths: {},
-    // year,
-    // yearsCount
-    // monthsCount
-  });
+  const [total, setTotal] = useState({});
 
   const data = useSelector((state) => state.data);
   const categories = useSelector((state) => state.categories.data);

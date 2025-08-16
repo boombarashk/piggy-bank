@@ -1,5 +1,11 @@
 export const APP_NAME = "PIGGY-BANK";
 
+export const TAB_PAGES = [
+  { text: "Категории", route: "/categories" },
+  { text: "Расходы", route: "/data" },
+  { text: "Диаграмма", route: "/chart" },
+];
+
 export const PIGGY_BANK_CATEGORIES = "app-categories";
 export const PIGGY_BANK_DATA = "app-data";
 

@@ -17,6 +17,7 @@ function Expenses() {
 
   const data = useSelector((state) => state.data);
   const categories = useSelector((state) => state.categories.data);
+  const loaded = useSelector((state) => state.categories.loaded);
 
   const { noEmptyCategories, year, yearsCount, monthsCount, byMonths } =
     useData();
@@ -46,7 +47,7 @@ function Expenses() {
 
   return (
     <>
-      {(!expenses || yearsCount === 0) && <NoData />}
+      {(loaded && (!expenses || yearsCount === 0)) && <NoData />}
 
       <div id="expenses" className="tab-content active">
         <form className={styles.expense_form}>

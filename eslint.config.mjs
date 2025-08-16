@@ -14,6 +14,7 @@ export default defineConfig([
   {
     rules: {
       "react/jsx-key": 2,
+      "no-console": "warn",
       "no-unused-vars": "warn",
       "no-undef": "warn",
       "react/react-in-jsx-scope": 0,
