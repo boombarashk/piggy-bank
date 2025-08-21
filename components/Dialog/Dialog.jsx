@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import Button from "../Button/Button";
 
-import "./Dialog.module.css";
+import styles from "./Dialog.module.css";
 
 export const handlerOpenDialogModal = (idDialog) =>
   !!idDialog && document.getElementById(idDialog).showModal();
@@ -23,7 +23,7 @@ function Dialog({ id, children, text, okHandler, withCancelButton = false }) {
   }, [id]);
 
   return (
-    <dialog id={id}>
+    <dialog id={id} className={styles.popover}>
       <form method="dialog">
         {children}
 

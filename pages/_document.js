@@ -19,6 +19,10 @@ class AppDocument extends Document {
             href="//fonts.googleapis.com/css?family=Istok+Web:normal,bold,italic,bolditalic"
             rel="stylesheet"
           />
+          <link
+            href="//fonts.googleapis.com/css?family=Material+Icons"
+            rel="stylesheet"
+          />
 
           {/* базовые CSS-стили */}
           <link rel="stylesheet" href="/styles.css" />

@@ -8,6 +8,11 @@ function Tabs() {
 
   return (
     <ul className={styles.tabs}>
+      <li className={`${styles.tab} ${pathname === "/" ? styles.active : ""}`}>
+        <Link href="/">
+          <i className="material-icons">home</i>
+        </Link>
+      </li>
       {TAB_PAGES.map((tab) => (
         <li
           key={tab.route}

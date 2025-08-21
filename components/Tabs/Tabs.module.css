@@ -10,28 +10,36 @@
   padding: 12px 12px 4px;
   background: transparent;
 }
-.tab:not(.disabled) {
-  cursor: pointer;
+.tab:nth-child(1) {
+  padding: 1rem 0.65rem 0 0.5rem;
 }
 
 .tab.active {
   paint-order: stroke fill;
   color: var(--dark-color);
-  /*text-anchor:middle;
-    background-color: #212271;*/
 }
-.tab:nth-child(1).active {
-  -webkit-text-stroke: 24px var(--first-color-03);
+.tab.active a {
+  cursor: default;
+}
+
+.tab:nth-child(1).tab.active i {
+  color: var(--disabled-color);
 }
 .tab:nth-child(2).active {
-  -webkit-text-stroke: 24px var(--apply-color-03);
+  -webkit-text-stroke: 24px var(--first-color-03);
 }
 .tab:nth-child(3).active {
+  -webkit-text-stroke: 24px var(--apply-color-03);
+}
+.tab:nth-child(4).active {
   -webkit-text-stroke: 24px var(--third-color-03);
 }
 
 .tab.disabled {
   color: var(--disabled-color);
+}
+.tab:not(.disabled) {
+  cursor: pointer;
 }
 .tab a {
   color: var(--dark-color);

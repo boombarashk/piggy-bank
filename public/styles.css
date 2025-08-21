@@ -38,34 +38,6 @@ ul {
   margin: 0;
 }
 
-.expense-form {
-  display: flex;
-  gap: 8px;
-}
-
-.select,
-.input-number,
-.ok-button {
-  height: 36px;
-  border-radius: 4px;
-}
-
-.select {
-  flex-grow: 1;
-}
-
-.expense-table {
-  width: 100%;
-  margin-top: 20px;
-  border-collapse: collapse;
-}
-
-.expense-table th,
-.expense-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-.expense-table th {
-  background-color: #f2f2f2;
+.material-icons {
+  font-family: "Material Icons";
 }

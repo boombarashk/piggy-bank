@@ -22,7 +22,7 @@ ChartJS.register(
 );
 
 function HomePage() {
-  const { year, byMonths, colors } = useData();
+  const { year, byMonths } = useData();
 
   if (!byMonths) return null;
 
@@ -32,9 +32,8 @@ function HomePage() {
     ),
     datasets: [
       {
-        label: "Расходы за текущий год",
+        label: `Расходы за ${year} год`,
         data: Object.values(byMonths),
-        //backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
     ],
   };
