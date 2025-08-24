@@ -1,13 +1,12 @@
-export const APP_NAME = "PIGGY-BANK";
+import { TTabPage } from "./types";
 
-export const TAB_PAGES = [
+export const TAB_PAGES: TTabPage[] = [
   { text: "Категории", route: "/categories" },
   { text: "Расходы", route: "/data" },
   { text: "Диаграмма", route: "/chart" },
 ];
 
-export const PIGGY_BANK_CATEGORIES = "app-categories";
-export const PIGGY_BANK_DATA = "app-data";
+export const PIGGY_BANK_START = "app-started";
 
 export const API_DATA_URL = "/api/data";
 export const CATEGORIES_FILENAME = "categories";
@@ -16,15 +15,15 @@ export const DATA_FILENAME = "data";
 export const ID_DIALOG_ADD_PROPERTY = "add-category";
 
 export const DEFAULT_COLORS = [
-  "blue",
+  "rgba(255, 99, 132, 0.2)",
+  "rgba(54, 162, 235, 0.2)",
+  "rgba(255, 206, 86, 0.2)",
+  "rgba(75, 192, 192, 0.2)",
+  "rgba(153, 102, 255, 0.2)",
+  "rgba(255, 159, 64, 0.2)",
   "lightgray",
-  "lightgreen",
-  "lightyellow",
-  "orangered",
 ];
 
-//export const formatterMonth = new Intl.DateTimeFormat('ru-RU', { month: 'long' });
-// Получаем полное название месяца const monthName = formatterMonth.format(date);
 export const MONTHS_RU = [
   "Январь",
   "Февраль",
@@ -59,8 +58,4 @@ export const CURRENT_MONTH_IND = `${new Date().getMonth()}`;
 export const formatter = new Intl.NumberFormat("ru-RU", {
   style: "currency",
   currency: "RUB",
-  // Optional: currencyDisplay can be 'symbol' (default), 'name', or 'code'
-  // currencyDisplay: 'symbol', // '123 456,79 руб.' (default for ru-RU)
-  // currencyDisplay: 'name',   // '123 456,79 российских рублей'
-  // currencyDisplay: 'code',   // '123 456,79 RUB'
 });

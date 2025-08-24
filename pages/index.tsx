@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { MONTHS_RU } from "../consts";
+import { DEFAULT_COLORS, MONTHS_RU } from "../consts";
 import useData from "@/services/useData";
 
 ChartJS.register(
@@ -34,6 +34,7 @@ function HomePage() {
       {
         label: `Расходы за ${year} год`,
         data: Object.values(byMonths),
+        backgroundColor: DEFAULT_COLORS,
       },
     ],
   };

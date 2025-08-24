@@ -1,8 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import Head from "next/head";
 
 import { ID_DIALOG_ADD_PROPERTY } from "../../consts";
+import {
+  useAppDispatch,
+  useCategoriesSelector,
+  useLoadedSelector,
+} from "../../store";
 import Button from "@/components/Button/Button";
 import Dialog, { handlerOpenDialogModal } from "@/components/Dialog/Dialog";
 import DefinitionList from "@/components/DefinitionList/DefinitionList";
@@ -12,16 +18,16 @@ import useData from "@/services/useData";
 
 import styles from "./Categories.module.css";
 
-function Categories() {
+function Categories(): React.ReactNode {
   const [newCategory, setNewCategory] = useState("");
 
-  const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.data);
-  const loaded = useSelector((state) => state.categories.loaded);
+  const dispatch = useAppDispatch();
+  const categories = useSelector(useCategoriesSelector);
+  const loaded = useSelector(useLoadedSelector);
   useData();
 
   // Отправка списка категорий в файл
-  const handleSaveCategories = (category) => {
+  const handleSaveCategories = (category: string): void => {
     dispatch(
       saveCategories({
         data: [...categories, { id: uuidv4(), name: category }],
@@ -31,6 +37,10 @@ function Categories() {
 
   return (
     <div className="tab-content">
+      <Head>
+        <title>Категории расходов</title>
+      </Head>
+
       {loaded && categories?.length === 0 && <NoData />}
 
       <Button

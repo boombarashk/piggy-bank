@@ -1,40 +1,45 @@
 import React, { useCallback, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
 import { HexColorPicker } from "react-colorful";
-
+import { useAppDispatch } from "../../store";
 import { DEFAULT_COLORS } from "../../consts";
 import useClickOutside from "@/services/useClickOutside";
 import {
   setColorByIndex,
   saveCategories,
 } from "@/services/reducers/categories";
+import { TCategory } from "../../types";
 
 import styles from "./DefinitionList.module.css";
 
-const DefinitionList = ({ data = [] }) => {
-  const dispatch = useDispatch();
-  const picker = useRef();
+interface IDefinitionListProps {
+  data: TCategory[];
+}
 
-  const [pickerIndex, setPickerIndex] = useState();
-  const [pickerVisible, setPickerVisible] = useState(false);
+const DefinitionList = ({
+  data = [],
+}: IDefinitionListProps): React.ReactElement => {
+  const dispatch = useAppDispatch();
+  const picker = useRef<HTMLDivElement | null>(null);
+
+  const [pickerIndex, setPickerIndex] = useState<number>();
+  const [pickerVisible, setPickerVisible] = useState<boolean>(false);
 
   const closePicker = useCallback(() => {
     dispatch(saveCategories({ data }));
     setPickerVisible(false);
-  }, [data]);
+  }, [dispatch, data]);
   useClickOutside(picker, closePicker);
 
   return (
     <>
-      <dl className={styles.list}>
+      <div className={styles.list}>
         {data.map((item, index) => {
           const bgColor =
             item.color || DEFAULT_COLORS[index % DEFAULT_COLORS.length];
 
           return (
-            <>
-              <dt key={item.id}>
+            <dl key={item.id}>
+              <dt>
                 <div
                   className={styles.mark}
                   style={{ backgroundColor: bgColor }}
@@ -45,12 +50,12 @@ const DefinitionList = ({ data = [] }) => {
                 />
               </dt>
               <dd key={index}>{item.name}</dd>
-            </>
+            </dl>
           );
         })}
-      </dl>
+      </div>
 
-      {pickerVisible && (
+      {pickerVisible && pickerIndex && (
         <div ref={picker} className={styles.picker}>
           <HexColorPicker
             color={DEFAULT_COLORS[pickerIndex % DEFAULT_COLORS.length]}
@@ -62,16 +67,6 @@ const DefinitionList = ({ data = [] }) => {
       )}
     </>
   );
-};
-
-DefinitionList.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      color: PropTypes.string,
-    }),
-  ).isRequired,
 };
 
 export default DefinitionList;

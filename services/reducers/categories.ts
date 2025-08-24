@@ -1,31 +1,37 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_DATA_URL, CATEGORIES_FILENAME } from "../../consts";
+import { TCategoriesState, TCategory } from "../../types";
 
 export const getCategoriesData = createAsyncThunk(
   `categories/get`,
-  async () => {
+  async (): Promise<{ data: TCategory[] }> => {
     const response = await axios.get(API_DATA_URL, {
       params: { filename: CATEGORIES_FILENAME },
     });
-    return response.data;
+    return { data: response.data };
   },
 );
 
 // Сохранение новых данных в файл путем отправки POST-запроса
 export const saveCategories = createAsyncThunk(
   "categories/save",
-  async (data) => {
+  async ({
+    data,
+  }: Pick<TCategoriesState, "data">): Promise<{ data: TCategory[] }> => {
     // Отправляем новый список категорий методом POST
     await axios.post(API_DATA_URL, {
       filename: CATEGORIES_FILENAME,
       data,
     });
-    return data;
+    return { data };
   },
 );
 
-const initialState = { data: [], loaded: false };
+const initialState: TCategoriesState = {
+  data: [] as TCategory[],
+  loaded: false,
+};
 
 const categoriesSlice = createSlice({
   name: "categories",
@@ -39,7 +45,6 @@ const categoriesSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(getCategoriesData.rejected, (state) => {
       state.loaded = true;
-      //console.error
     });
     builder.addCase(getCategoriesData.fulfilled, (state, action) => {
       state.loaded = true;

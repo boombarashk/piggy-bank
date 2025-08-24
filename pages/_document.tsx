@@ -13,7 +13,7 @@ class AppDocument extends Document {
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
-            crossOrigin="true"
+            crossOrigin="use-credentials"
           />
           <link
             href="//fonts.googleapis.com/css?family=Istok+Web:normal,bold,italic,bolditalic"

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_DATA_URL, DATA_FILENAME } from "../../consts";
+import { TExpense, TNewExpense } from "../../types";
 
 export const getData = createAsyncThunk(`data/get`, async () => {
   const response = await axios.get(API_DATA_URL, {
@@ -10,30 +11,41 @@ export const getData = createAsyncThunk(`data/get`, async () => {
 });
 
 // Сохранение новых данных в файл
-export const saveData = createAsyncThunk("data/save", async (data) => {
-  await axios.post(API_DATA_URL, {
-    filename: DATA_FILENAME,
-    data,
-  });
-  return data;
-});
+export const saveData = createAsyncThunk(
+  "data/save",
+  async (data: Partial<TNewExpense>) => {
+    await axios.post(API_DATA_URL, {
+      filename: DATA_FILENAME,
+      data,
+    });
+    return data;
+  },
+);
 
-export const addExpense = ({ data = {}, month, year, categoryId, sum }) => {
+export const addExpense = ({
+  data = {},
+  month,
+  year,
+  categoryId,
+  sum,
+}: TNewExpense) => {
   if (!categoryId || sum < 0) {
     return data;
   }
 
-  let currentExpenses = data[`${year}`];
+  let currentExpenses: Record<string, TExpense> = data[
+    `${year}`
+  ] as unknown as Record<string, TExpense>;
   if (!currentExpenses) {
     currentExpenses = {};
   }
 
-  let currentMonthExpenses = currentExpenses[`${month}`];
+  let currentMonthExpenses: TExpense = currentExpenses[`${month}`];
   if (!currentMonthExpenses) {
     currentMonthExpenses = {};
   }
 
-  let sumInCategory = currentMonthExpenses[categoryId];
+  let sumInCategory: number = currentMonthExpenses[categoryId];
   if (!sumInCategory) {
     sumInCategory = 0;
   }
@@ -50,7 +62,7 @@ export const addExpense = ({ data = {}, month, year, categoryId, sum }) => {
   };
 };
 
-const initialState = {};
+const initialState = {} as Record<string, TExpense>;
 
 const dataSlice = createSlice({
   name: "data",
@@ -64,7 +76,7 @@ const dataSlice = createSlice({
       return { ...action.payload };
     });
     builder.addCase(saveData.fulfilled, (state, action) => {
-      return { ...action.payload };
+      return { ...(action.payload as unknown as object) };
     });
   },
 });

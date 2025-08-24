@@ -1,8 +1,7 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import Head from "next/head";
-import useData from "@/services/useData";
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Head>

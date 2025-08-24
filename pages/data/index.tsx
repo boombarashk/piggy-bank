@@ -1,6 +1,11 @@
-import { useCallback, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
+import React, { useCallback, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  useAppDispatch,
+  useCategoriesSelector,
+  useDataSelector,
+  useLoadedSelector,
+} from "../../store";
 import { CURRENT_MONTH_IND, MONTHS_RU, formatter } from "../../consts";
 import { addExpense, saveData } from "@/services/reducers/data";
 import Button from "@/components/Button/Button";
@@ -8,46 +13,56 @@ import NoData from "@/components/NoData/NoData";
 import useData from "@/services/useData";
 
 import styles from "./Data.module.css";
+import { TExpense } from "../../types";
 
-function Expenses() {
-  const dispatch = useDispatch();
-  const monthRef = useRef();
-  const categoryRef = useRef();
-  const sumRef = useRef();
+function Expenses(): React.ReactNode | null {
+  const dispatch = useAppDispatch();
+  const monthRef = useRef<HTMLSelectElement | null>(null);
+  const categoryRef = useRef<HTMLSelectElement | null>(null);
+  const sumRef = useRef<HTMLInputElement | null>(null);
 
-  const data = useSelector((state) => state.data);
-  const categories = useSelector((state) => state.categories.data);
-  const loaded = useSelector((state) => state.categories.loaded);
+  const data = useSelector(useDataSelector);
+  const categories = useSelector(useCategoriesSelector);
+  const loaded = useSelector(useLoadedSelector);
 
-  const { noEmptyCategories, year, yearsCount, monthsCount, byMonths } =
-    useData();
+  const {
+    noEmptyCategories,
+    year = "",
+    yearsCount = 0,
+    monthsCount = 0,
+    byMonths,
+  } = useData();
 
   const expenses = data?.[year];
 
   // Сохранение данных в файл
   const handleSave = useCallback(() => {
-    //todo check sumRef valid
-    const newData = addExpense({
-      data,
-      year,
-      month: monthRef.current.value,
-      categoryId: categoryRef.current.value,
-      sum: sumRef.current.value,
-    });
-    dispatch(saveData(newData));
-  }, [data, year]);
+    if (monthRef.current && categoryRef.current && sumRef.current) {
+      //todo check sumRef valid
+      const newData = addExpense({
+        data,
+        year,
+        month: Number(monthRef.current.value),
+        categoryId: categoryRef.current.value,
+        sum: Number(sumRef.current.value),
+      });
+      dispatch(saveData(newData));
+    }
+  }, [dispatch, data, year]);
 
   const [disableBtn, setDisableBtn] = useState(true);
   const checkDisableBtn = () =>
     setDisableBtn(
       !categoryRef.current?.value ||
         !sumRef.current ||
-        sumRef.current?.value <= 0,
+        Number(sumRef.current?.value) <= 0,
     );
+
+  if (!expenses) return null;
 
   return (
     <>
-      {loaded && (!expenses || yearsCount === 0) && <NoData />}
+      {loaded && yearsCount === 0 && <NoData />}
 
       <div id="expenses" className="tab-content active">
         <form className={styles.expense_form}>
@@ -74,7 +89,7 @@ function Expenses() {
             <option value="" disabled>
               Выбрать категорию
             </option>
-            {categories.map((category) => {
+            {categories?.map((category) => {
               return (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -82,6 +97,7 @@ function Expenses() {
               );
             })}
           </select>
+
           <input
             ref={sumRef}
             name="expense"
@@ -108,20 +124,24 @@ function Expenses() {
             <div className={styles.header}>Категории</div>
             {Object.keys(expenses).map((monthInd) => (
               <div className={styles.header} key={monthInd}>
-                {MONTHS_RU[monthInd]}
+                {MONTHS_RU[Number(monthInd)]}
               </div>
             ))}
 
-            {noEmptyCategories.map((category, ind) => {
+            {noEmptyCategories?.map((category, ind) => {
               const cellClassName = `${styles.cell} ${ind % 2 === 1 ? styles.lightgreen : ""}`;
               return (
                 <>
                   <div className={cellClassName}>{category.name}</div>
-                  {Object.keys(expenses).map((monthInd) => (
+                  {Object.keys(expenses).map((monthInd: string) => (
                     <div
                       className={cellClassName}
                       key={`${category.id}-${monthInd}`}>
-                      {expenses?.[monthInd]?.[category.id]}
+                      {
+                        (expenses[monthInd] as unknown as TExpense)?.[
+                          category.id
+                        ]
+                      }
                     </div>
                   ))}
                 </>

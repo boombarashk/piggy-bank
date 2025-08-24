@@ -1,13 +1,20 @@
-dl.list {
-  display: block;
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding-top: 2rem;
 }
 
-dl.list dt {
+.list dl {
+  margin: 0;
+}
+
+.list dt {
   float: left;
   clear: both;
   width: 48px;
 }
-dl.list dd {
+.list dd {
   margin-left: 48px;
   box-sizing: border-box;
   width: calc(100% - 48px);

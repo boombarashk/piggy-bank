@@ -1,9 +1,10 @@
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { TAB_PAGES } from "../../consts";
 import styles from "./Tabs.module.css";
 
-function Tabs() {
+function Tabs(): React.ReactElement {
   const pathname = usePathname();
 
   return (
