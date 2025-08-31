@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import classNames from "classnames";
 import {
   useAppDispatch,
   useCategoriesSelector,
@@ -109,7 +110,7 @@ function Expenses(): React.ReactNode | null {
           />
 
           <Button
-            additionClassName="ok-button"
+            className="ok-button"
             onClick={handleSave}
             disabled={disableBtn}
           />
@@ -121,7 +122,9 @@ function Expenses(): React.ReactNode | null {
             style={{
               gridTemplateColumns: `240px repeat(${monthsCount}, 1fr)`,
             }}>
-            <div className={styles.header}>Категории</div>
+            <div className={classNames(styles.sticky_column, styles.header)}>
+              Категории
+            </div>
             {Object.keys(expenses).map((monthInd) => (
               <div className={styles.header} key={monthInd}>
                 {MONTHS_RU[Number(monthInd)]}
@@ -132,7 +135,10 @@ function Expenses(): React.ReactNode | null {
               const cellClassName = `${styles.cell} ${ind % 2 === 1 ? styles.lightgreen : ""}`;
               return (
                 <>
-                  <div className={cellClassName}>{category.name}</div>
+                  <div
+                    className={classNames(styles.sticky_column, cellClassName)}>
+                    {category.name}
+                  </div>
                   {Object.keys(expenses).map((monthInd: string) => (
                     <div
                       className={cellClassName}

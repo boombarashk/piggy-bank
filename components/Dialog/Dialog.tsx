@@ -1,15 +1,23 @@
-import React, { useEffect } from "react";
+import React, {
+  DetailedHTMLProps,
+  DialogHTMLAttributes,
+  useEffect,
+} from "react";
 
 import Button from "../Button/Button";
 
 import styles from "./Dialog.module.css";
 
-interface IDialogProps {
+interface IDialogProps
+  extends DetailedHTMLProps<
+    DialogHTMLAttributes<HTMLDialogElement>,
+    HTMLDialogElement
+  > {
   id: string;
   text?: string;
   okHandler: () => void;
   withCancelButton?: boolean;
-  children?: React.ReactElement | React.ReactElement[];
+  children?: React.ReactNode;
 }
 
 export const handlerOpenDialogModal = (idDialog: string) =>

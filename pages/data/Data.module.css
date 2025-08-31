@@ -2,6 +2,13 @@
   display: grid;
   margin-top: 2rem;
   box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.sticky_column {
+  position: sticky;
+  left: 0;
+  z-index: 1;
 }
 
 .header {
@@ -12,6 +19,9 @@
   border: 1px solid var(--white-color);
   padding: 8px;
   text-align: center;
+}
+.cell {
+  background-color: var(--white-color);
 }
 .lightgreen {
   background-color: var(--apply-color-01);
