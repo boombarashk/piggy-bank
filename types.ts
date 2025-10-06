@@ -11,6 +11,12 @@ export type TCategory = {
 
 export type TColor = Record<string, string>;
 
+export type TFormFieldsExpense = {
+  month: string;
+  category: string;
+  expense: string;
+};
+
 export type TExpense = Record<string, number>;
 
 export type TNewExpense = {
@@ -35,3 +41,9 @@ export type TCategoriesState = {
   data: TCategory[];
   loaded: boolean;
 };
+
+export enum EntityEnum {
+  "categories" = "categories",
+  "expenses" = "expenses",
+  "income" = "income",
+}

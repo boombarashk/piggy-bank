@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { TAB_PAGES } from "../../consts";
+import HomeIcon from "./home.svg";
 import styles from "./Tabs.module.css";
 
 function Tabs(): React.ReactElement {
@@ -10,8 +12,8 @@ function Tabs(): React.ReactElement {
   return (
     <ul className={styles.tabs}>
       <li className={`${styles.tab} ${pathname === "/" ? styles.active : ""}`}>
-        <Link href="/">
-          <i className="material-icons">home</i>
+        <Link href="/" title="На главную">
+          <HomeIcon />
         </Link>
       </li>
       {TAB_PAGES.map((tab) => (

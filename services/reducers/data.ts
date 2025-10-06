@@ -1,12 +1,12 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { API_DATA_URL, DATA_FILENAME } from "../../consts";
-import { TExpense, TNewExpense } from "../../types";
+import { API_FILES_URL } from "../../consts";
+import { EntityEnum, TExpense, TNewExpense } from "../../types";
 
 export const getData = createAsyncThunk(`data/get`, async () => {
-  const response = await axios.get(API_DATA_URL, {
-    params: { filename: DATA_FILENAME },
-  });
+  const response = await axios.get(
+    `${API_FILES_URL}?name=${EntityEnum.expenses}`,
+  );
   return response.data;
 });
 
@@ -14,10 +14,7 @@ export const getData = createAsyncThunk(`data/get`, async () => {
 export const saveData = createAsyncThunk(
   "data/save",
   async (data: Partial<TNewExpense>) => {
-    await axios.post(API_DATA_URL, {
-      filename: DATA_FILENAME,
-      data,
-    });
+    await axios.post(`${API_FILES_URL}?name=${EntityEnum.expenses}`, data);
     return data;
   },
 );
@@ -29,7 +26,7 @@ export const addExpense = ({
   categoryId,
   sum,
 }: TNewExpense) => {
-  if (!categoryId || sum < 0) {
+  if (!categoryId || sum < 0 || !year) {
     return data;
   }
 

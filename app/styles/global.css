@@ -38,6 +38,6 @@ ul {
   margin: 0;
 }
 
-.material-icons {
-  font-family: "Material Icons";
+.highcharts-credits {
+  visibility: hidden;
 }

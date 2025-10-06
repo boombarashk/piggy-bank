@@ -2,15 +2,13 @@ import { TTabPage } from "./types";
 
 export const TAB_PAGES: TTabPage[] = [
   { text: "Категории", route: "/categories" },
-  { text: "Расходы", route: "/data" },
+  { text: "Расходы", route: "/data" }, //fixme expenses
   { text: "Диаграмма", route: "/chart" },
 ];
 
 export const PIGGY_BANK_START = "app-started";
 
-export const API_DATA_URL = "/api/data";
-export const CATEGORIES_FILENAME = "categories";
-export const DATA_FILENAME = "data";
+export const API_FILES_URL = "/api/files";
 
 export const ID_DIALOG_ADD_PROPERTY = "add-category";
 
@@ -23,6 +21,7 @@ export const DEFAULT_COLORS = [
   "rgba(255, 159, 64, 0.2)",
   "lightgray",
 ];
+export const POINT_FORMAT = "<b>{point.y:.2f} ₽</b>";
 
 export const MONTHS_RU = [
   "Январь",

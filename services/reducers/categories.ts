@@ -1,15 +1,15 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { API_DATA_URL, CATEGORIES_FILENAME } from "../../consts";
-import { TCategoriesState, TCategory } from "../../types";
+import { API_FILES_URL } from "../../consts";
+import { EntityEnum, TCategoriesState, TCategory } from "../../types";
 
 export const getCategoriesData = createAsyncThunk(
   `categories/get`,
   async (): Promise<{ data: TCategory[] }> => {
-    const response = await axios.get(API_DATA_URL, {
-      params: { filename: CATEGORIES_FILENAME },
-    });
-    return { data: response.data };
+    const response = await axios.get(
+      `${API_FILES_URL}?name=${EntityEnum.categories}`,
+    );
+    return { ...response.data };
   },
 );
 
@@ -20,8 +20,7 @@ export const saveCategories = createAsyncThunk(
     data,
   }: Pick<TCategoriesState, "data">): Promise<{ data: TCategory[] }> => {
     // Отправляем новый список категорий методом POST
-    await axios.post(API_DATA_URL, {
-      filename: CATEGORIES_FILENAME,
+    await axios.post(`${API_FILES_URL}?name=${EntityEnum.categories}`, {
       data,
     });
     return { data };

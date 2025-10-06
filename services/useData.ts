@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -58,8 +59,8 @@ const useData = (): Partial<TData> => {
         }
 
         setTotal({
-          colors,
           year,
+          colors,
           yearsCount,
           monthsCount,
           byMonths,
