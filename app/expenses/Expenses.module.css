@@ -1,8 +1,8 @@
 .grid {
   display: grid;
-  margin-top: 2rem;
   box-sizing: border-box;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .sticky_column {
@@ -26,25 +26,6 @@
 }
 .lightgreen {
   background-color: var(--apply-color-01);
-}
-
-.expense_form {
-  display: flex;
-  gap: 0.5rem;
-  align-items: baseline;
-}
-
-.input,
-.select {
-  align-self: normal;
-  border-radius: 4px;
-}
-.input:not(:disabled) {
-  border: 1px solid var(--first-color);
-  color: var(--first-color);
-}
-.select:not(:disabled) {
-  border: 1px solid var(--first-color);
 }
 
 .total {

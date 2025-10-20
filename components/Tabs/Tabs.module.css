@@ -28,10 +28,11 @@
 .tab:nth-child(2).active {
   -webkit-text-stroke: 24px var(--first-color-03);
 }
-.tab:nth-child(3).active {
+.tab:nth-child(3).active,
+.tab:nth-child(4).active {
   -webkit-text-stroke: 24px var(--apply-color-03);
 }
-.tab:nth-child(4).active {
+.tab:nth-child(5).active {
   -webkit-text-stroke: 24px var(--third-color-03);
 }
 

@@ -8,7 +8,7 @@ import { ID_DIALOG_ADD_PROPERTY } from "../../consts";
 import {
   useAppDispatch,
   useCategoriesSelector,
-  useLoadedSelector,
+  useLoadingSelector,
 } from "../../store";
 import Button from "@/components/Button/Button";
 import Dialog, { handlerOpenDialogModal } from "@/components/Dialog/Dialog";
@@ -24,7 +24,7 @@ function Categories(): React.ReactNode {
 
   const dispatch = useAppDispatch();
   const categories = useSelector(useCategoriesSelector);
-  const loaded = useSelector(useLoadedSelector);
+  const loading = useSelector(useLoadingSelector);
   useData();
 
   // Отправка списка категорий в файл
@@ -42,12 +42,12 @@ function Categories(): React.ReactNode {
         <title>Категории расходов</title>
       </Head>
 
-      {loaded && categories?.length === 0 && <NoData />}
-
       <Button
-        text="Добавить категорию"
+        text="Добавить категорию расхода"
         clickHandler={() => handlerOpenDialogModal(ID_DIALOG_ADD_PROPERTY)}
       />
+
+      {categories?.length === 0 && <NoData loading={loading} />}
 
       {categories?.length > 0 && <DefinitionList data={categories} />}
 

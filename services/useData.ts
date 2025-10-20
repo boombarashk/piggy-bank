@@ -1,33 +1,45 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { DEFAULT_COLORS } from "../consts";
+import { CURRENT_YEAR, DEFAULT_COLORS } from "../consts";
 import { getCategoriesData } from "./reducers/categories";
-import { getData } from "./reducers/data";
-import { TCategory, TColor, TData, TExpense } from "../types";
+import { getExpensesData } from "./reducers/expenses";
+import { getIncomes } from "./reducers/incomes";
+import { TCategory, TColor, TData, TExpense, TIncome } from "../types";
 import {
   useAppDispatch,
   useCategoriesSelector,
-  useDataSelector,
+  useExpensesSelector,
+  useIncomesSelector,
 } from "../store";
+
+export const sumSeries = (arr: number[]): number =>
+  arr.reduce((accum, currentValue) => accum + currentValue, 0);
 
 const useData = (): Partial<TData> => {
   const [total, setTotal] = useState({} as Partial<TData>);
 
-  const data = useSelector(useDataSelector);
+  const data = useSelector(useExpensesSelector);
   const categories: TCategory[] = useSelector(useCategoriesSelector);
+  const incomesState = useSelector(useIncomesSelector);
+  const incomes = useMemo(
+    () => incomesState?.[CURRENT_YEAR] ?? {},
+    [incomesState],
+  );
 
   const dispatch = useAppDispatch();
-  // Запрашиваем данные при загрузке страницы
   useEffect(() => {
     dispatch(getCategoriesData());
-    dispatch(getData());
+    dispatch(getExpensesData());
+    dispatch(getIncomes());
   }, [dispatch]);
 
   useEffect(() => {
-    const year: string = `${new Date().getFullYear()}`;
-    const expenses = data?.[year] as unknown as Record<string, TExpense>;
+    const expenses = data?.[CURRENT_YEAR] as unknown as Record<
+      string,
+      TExpense
+    >;
     const yearsCount: number = (!!expenses && Object.keys(data).length) || 0;
     const monthsCount: number =
       (yearsCount > 0 && !!expenses && Object.keys(expenses).length) || 0;
@@ -39,39 +51,42 @@ const useData = (): Partial<TData> => {
         colors[category.id] =
           category.color || DEFAULT_COLORS[index % DEFAULT_COLORS.length];
       });
-      const byCategories = {} as Record<string, TExpense[]>;
-      const byMonths = {} as TExpense;
+      const expensesByCategories = {} as Record<string, TExpense[]>;
+      const expensesByMonths = {} as TExpense;
+      const incomesByMonths = {} as TIncome;
 
       for (const month in expenses) {
-        byMonths[month] = 0;
+        expensesByMonths[month] = 0;
+        incomesByMonths[month] = incomes?.[month] ?? 0;
 
         for (const categoryId in expenses[month]) {
-          if (!byCategories[categoryId]) {
-            byCategories[categoryId] = [];
+          if (!expensesByCategories[categoryId]) {
+            expensesByCategories[categoryId] = [];
           }
 
-          byMonths[month] += expenses[month][categoryId];
+          expensesByMonths[month] += expenses[month][categoryId];
 
           // fixme проверить - нужен ли этот объект, может стоит суммой заменить
-          byCategories[categoryId].push({
+          expensesByCategories[categoryId].push({
             [month]: expenses[month][categoryId],
           });
         }
 
         setTotal({
-          year,
+          year: CURRENT_YEAR,
           colors,
           yearsCount,
           monthsCount,
-          byMonths,
-          byCategories,
+          expensesByMonths,
+          expensesByCategories,
+          incomesByMonths, //fixme check no zero
           noEmptyCategories: categories.filter((category) =>
-            Object.keys(byCategories).includes(category.id),
+            Object.keys(expensesByCategories).includes(category.id),
           ),
         });
       }
     }
-  }, [categories, data]);
+  }, [categories, data, incomes]);
 
   return total;
 };

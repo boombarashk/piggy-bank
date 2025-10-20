@@ -13,7 +13,7 @@ export const useFirstLoad = (): void => {
   useEffect(() => {
     const appStarted = localStorage.getItem(PIGGY_BANK_START);
     if (appStarted === "true" && pathname === "/") {
-      router.push(TAB_PAGES[1].route);
+      router.push(TAB_PAGES[2].route);
     } else {
       localStorage.setItem(PIGGY_BANK_START, "true");
     }

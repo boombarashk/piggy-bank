@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API_FILES_URL } from "../../consts";
 import { EntityEnum, TExpense, TNewExpense } from "../../types";
 
-export const getData = createAsyncThunk(`data/get`, async () => {
+export const getExpensesData = createAsyncThunk(`expenses/get`, async () => {
   const response = await axios.get(
     `${API_FILES_URL}?name=${EntityEnum.expenses}`,
   );
@@ -11,8 +11,8 @@ export const getData = createAsyncThunk(`data/get`, async () => {
 });
 
 // Сохранение новых данных в файл
-export const saveData = createAsyncThunk(
-  "data/save",
+export const saveExpensesData = createAsyncThunk(
+  "expenses/save",
   async (data: Partial<TNewExpense>) => {
     await axios.post(`${API_FILES_URL}?name=${EntityEnum.expenses}`, data);
     return data;
@@ -61,21 +61,21 @@ export const addExpense = ({
 
 const initialState = {} as Record<string, TExpense>;
 
-const dataSlice = createSlice({
-  name: "data",
+const expensesSlice = createSlice({
+  name: "expenses",
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(getData.rejected, () => {
+    builder.addCase(getExpensesData.rejected, () => {
       //console.error
     });
-    builder.addCase(getData.fulfilled, (state, action) => {
+    builder.addCase(getExpensesData.fulfilled, (state, action) => {
       return { ...action.payload };
     });
-    builder.addCase(saveData.fulfilled, (state, action) => {
+    builder.addCase(saveExpensesData.fulfilled, (state, action) => {
       return { ...(action.payload as unknown as object) };
     });
   },
 });
 
-export default dataSlice.reducer;
+export default expensesSlice.reducer;

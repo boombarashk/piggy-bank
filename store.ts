@@ -2,11 +2,13 @@
 import { useDispatch } from "react-redux";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import categoriesReducer from "@/services/reducers/categories";
-import dataReducer from "@/services/reducers/data";
+import expensesReducer from "@/services/reducers/expenses";
+import incomesReducer from "@/services/reducers/incomes";
 
 const rootReducer = combineReducers({
   categories: categoriesReducer,
-  data: dataReducer,
+  expenses: expensesReducer,
+  incomes: incomesReducer,
 });
 
 type TRootState = ReturnType<typeof rootReducer>;
@@ -22,5 +24,7 @@ export const store = configureStore({
 
 export const useCategoriesSelector = (state: TRootState) =>
   state.categories.data;
-export const useDataSelector = (state: TRootState) => state.data;
-export const useLoadedSelector = (state: TRootState) => state.categories.loaded;
+export const useExpensesSelector = (state: TRootState) => state.expenses;
+export const useIncomesSelector = (state: TRootState) => state.incomes;
+export const useLoadingSelector = (state: TRootState) =>
+  state.categories.loading;

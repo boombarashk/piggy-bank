@@ -1,0 +1,28 @@
+.total {
+  box-sizing: border-box;
+  max-width: 393px;
+  padding: 8px;
+  border-top: 1px solid var(--dark-color);
+  font-weight: bold;
+  text-align: right;
+  line-height: 2rem;
+  font-size: 1.2rem;
+}
+
+.grid {
+  max-width: 393px;
+  display: grid;
+  grid-template-columns: 110px 1fr;
+}
+
+.th,
+.td {
+  padding: 8px;
+  line-height: 28px;
+}
+.td {
+  text-align: right;
+}
+.lightgreen {
+  background-color: var(--apply-color-01);
+}

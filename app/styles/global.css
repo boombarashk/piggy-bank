@@ -38,6 +38,27 @@ ul {
   margin: 0;
 }
 
+.inlineform {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding-bottom: 20px;
+}
+
+.input,
+.select {
+  align-self: normal;
+  border-radius: 4px;
+}
+.select:not(:disabled) {
+  border: 1px solid var(--first-color);
+}
+
+.input:not(:disabled) {
+  border: 1px solid var(--first-color);
+  color: var(--first-color);
+}
+
 .highcharts-credits {
   visibility: hidden;
 }

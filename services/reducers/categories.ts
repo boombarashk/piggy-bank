@@ -29,7 +29,7 @@ export const saveCategories = createAsyncThunk(
 
 const initialState: TCategoriesState = {
   data: [] as TCategory[],
-  loaded: false,
+  loading: true,
 };
 
 const categoriesSlice = createSlice({
@@ -43,10 +43,10 @@ const categoriesSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(getCategoriesData.rejected, (state) => {
-      state.loaded = true;
+      state.loading = false;
     });
     builder.addCase(getCategoriesData.fulfilled, (state, action) => {
-      state.loaded = true;
+      state.loading = false;
       state.data = action.payload.data;
     });
     builder.addCase(saveCategories.fulfilled, (state, action) => {

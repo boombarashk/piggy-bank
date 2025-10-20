@@ -9,10 +9,10 @@ import { CURRENT_MONTH_IND, MONTHS_RU_SHORT, POINT_FORMAT } from "../../consts";
 import useData from "@/services/useData";
 import NoData from "@/components/NoData/NoData";
 import SubTabs from "@/components/SubTabs/SubTabs";
-import { useDataSelector } from "../../store";
+import { useExpensesSelector } from "../../store";
 
 const Chart = (): React.ReactNode => {
-  const data = useSelector(useDataSelector);
+  const data = useSelector(useExpensesSelector);
   const { year, noEmptyCategories, colors } = useData();
 
   const expenses = year ? data?.[year] : {};

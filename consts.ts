@@ -2,7 +2,8 @@ import { TTabPage } from "./types";
 
 export const TAB_PAGES: TTabPage[] = [
   { text: "Категории", route: "/categories" },
-  { text: "Расходы", route: "/data" }, //fixme expenses
+  { text: "Поступления", route: "/incomes" },
+  { text: "Расходы", route: "/expenses" },
   { text: "Диаграмма", route: "/chart" },
 ];
 
@@ -12,6 +13,7 @@ export const API_FILES_URL = "/api/files";
 
 export const ID_DIALOG_ADD_PROPERTY = "add-category";
 
+export const BG_INCOME_COLOR = "#00c49f";
 export const DEFAULT_COLORS = [
   "rgba(255, 99, 132, 0.2)",
   "rgba(54, 162, 235, 0.2)",
@@ -22,6 +24,7 @@ export const DEFAULT_COLORS = [
   "lightgray",
 ];
 export const POINT_FORMAT = "<b>{point.y:.2f} ₽</b>";
+export const POINT_FORMAT_WITH_NAME = `{series.name}<br/>${POINT_FORMAT}`;
 
 export const MONTHS_RU = [
   "Январь",
@@ -52,6 +55,7 @@ export const MONTHS_RU_SHORT = [
   "дек.",
 ];
 
+export const CURRENT_YEAR = `${new Date().getFullYear()}`;
 export const CURRENT_MONTH_IND = `${new Date().getMonth()}`;
 
 export const formatter = new Intl.NumberFormat("ru-RU", {

@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { EntityEnum, TCategory, TExpense } from "../types";
+import { EntityEnum, TCategory, TExpense, TIncome } from "../types";
 
 const WRONG_FILENAME = "Некорректное имя файла";
 export const READ_ERROR_MSG = "Ошибка чтения файла";
@@ -21,8 +21,9 @@ export function getDataByPath(filePath: string) {
 
 export function updateByPath(
   filePath: string,
-  newData: Record<string, TExpense[]> | Record<"data", TCategory[]>,
+  newData:
+    | Record<string, TExpense[]>
+    | Record<"data", TCategory[] | Record<string, TIncome>>,
 ) {
-  //fixme add income
   fs.writeFileSync(filePath, JSON.stringify(newData, null, 2));
 }

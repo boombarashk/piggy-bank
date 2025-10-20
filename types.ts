@@ -11,12 +11,18 @@ export type TCategory = {
 
 export type TColor = Record<string, string>;
 
+export type TFormFieldsIncome = {
+  month: string;
+  sum: string;
+};
+
 export type TFormFieldsExpense = {
   month: string;
   category: string;
   expense: string;
 };
 
+export type TIncome = Record<string, number>;
 export type TExpense = Record<string, number>;
 
 export type TNewExpense = {
@@ -32,18 +38,23 @@ export type TData = {
   year: string;
   yearsCount: number;
   monthsCount: number;
-  byMonths: TExpense;
-  byCategories: Record<string, TExpense[]>;
+  incomesByMonths: TIncome;
+  expensesByMonths: TExpense;
+  expensesByCategories: Record<string, TExpense[]>;
   noEmptyCategories: Array<TCategory>;
 };
 
 export type TCategoriesState = {
   data: TCategory[];
-  loaded: boolean;
+  loading: boolean;
+};
+
+export type TIncomesState = Record<string, TIncome> & {
+  loading: boolean;
 };
 
 export enum EntityEnum {
   "categories" = "categories",
   "expenses" = "expenses",
-  "income" = "income",
+  "incomes" = "incomes",
 }

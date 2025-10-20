@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const filePath = getPath(searchParams.get("name"));
-    debugger;
+
     const body = await request.json();
     updateByPath(filePath, body);
     return NextResponse.json({ message: UPDATE_SUCCESS_MSG }, { status: 200 });
