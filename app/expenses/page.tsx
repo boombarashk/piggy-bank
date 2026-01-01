@@ -46,14 +46,13 @@ function Expenses(): React.ReactNode | null {
   const categories = useSelector(useCategoriesSelector);
   const loading = useSelector(useLoadingSelector);
 
-  const {
-    noEmptyCategories,
-    yearsCount = 0,
-    monthsCount = 0,
-    expensesByMonths,
-  } = useData();
+  const { noEmptyCategories, expensesByMonths } = useData();
 
   const expenses = data?.[CURRENT_YEAR] ?? {};
+
+  const monthsCount: number = Object.values(expensesByMonths ?? {}).filter(
+    (sum) => sum > 0,
+  ).length;
 
   // Сохранение данных в файл
   const handleSave = useCallback(
@@ -111,9 +110,9 @@ function Expenses(): React.ReactNode | null {
           <Button type="submit" className="ok-button" disabled={disableBtn} />
         </form>
 
-        {yearsCount === 0 && <NoData loading={loading} />}
+        {monthsCount === 0 && <NoData loading={loading} />}
 
-        {yearsCount > 0 && monthsCount > 0 && (
+        {monthsCount > 0 && (
           <div
             className={styles.grid}
             style={{

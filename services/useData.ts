@@ -19,6 +19,8 @@ export const sumSeries = (arr: number[]): number =>
 
 const useData = (): Partial<TData> => {
   const [total, setTotal] = useState({} as Partial<TData>);
+  const [totalExpenses, setTotalExpenses] = useState<number>(0);
+  const [totalIncomes, setTotalIncomes] = useState<number>(0);
 
   const data = useSelector(useExpensesSelector);
   const categories: TCategory[] = useSelector(useCategoriesSelector);
@@ -40,55 +42,83 @@ const useData = (): Partial<TData> => {
       string,
       TExpense
     >;
-    const yearsCount: number = (!!expenses && Object.keys(data).length) || 0;
-    const monthsCount: number =
-      (yearsCount > 0 && !!expenses && Object.keys(expenses).length) || 0;
+    const setYears = new Set([
+      ...Object.keys(data ?? {}),
+      ...Object.keys(incomesState).filter((key) => key !== "loading"),
+    ]);
+    const yearsCount: number = setYears.size;
+    const setMonths = new Set([
+      ...Object.keys(incomes),
+      ...Object.keys(expenses ?? {}),
+    ]);
+    const months = yearsCount > 0 ? [...setMonths] : [];
 
     const colors: Partial<TColor> = {};
 
-    if (categories?.length && !!expenses) {
+    if (categories?.length) {
       categories.forEach((category, index) => {
         colors[category.id] =
           category.color || DEFAULT_COLORS[index % DEFAULT_COLORS.length];
       });
-      const expensesByCategories = {} as Record<string, TExpense[]>;
+      const expensesByCategories = {} as Record<string, number>;
       const expensesByMonths = {} as TExpense;
       const incomesByMonths = {} as TIncome;
 
-      for (const month in expenses) {
+      months.forEach((month) => {
         expensesByMonths[month] = 0;
         incomesByMonths[month] = incomes?.[month] ?? 0;
 
-        for (const categoryId in expenses[month]) {
-          if (!expensesByCategories[categoryId]) {
-            expensesByCategories[categoryId] = [];
+        if (expenses) {
+          for (const categoryId in expenses[month]) {
+            if (!expensesByCategories[categoryId]) {
+              expensesByCategories[categoryId] = 0;
+            }
+
+            expensesByMonths[month] += expenses[month][categoryId];
+
+            expensesByCategories[categoryId] += expenses[month][categoryId];
           }
-
-          expensesByMonths[month] += expenses[month][categoryId];
-
-          // fixme проверить - нужен ли этот объект, может стоит суммой заменить
-          expensesByCategories[categoryId].push({
-            [month]: expenses[month][categoryId],
-          });
         }
 
         setTotal({
           year: CURRENT_YEAR,
           colors,
           yearsCount,
-          monthsCount,
+          months,
           expensesByMonths,
           expensesByCategories,
-          incomesByMonths, //fixme check no zero
+          incomesByMonths,
           noEmptyCategories: categories.filter((category) =>
             Object.keys(expensesByCategories).includes(category.id),
           ),
         });
+      });
+    }
+  }, [categories, data, incomes, incomesState]);
+
+  useEffect(() => {
+    let calculatedTotalExpenses = 0;
+    for (const yearKey in data) {
+      Object.values(data[yearKey]).forEach((seriesObject) => {
+        calculatedTotalExpenses += sumSeries(Object.values(seriesObject));
+      });
+      setTotalExpenses(calculatedTotalExpenses);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    let calculatedTotalIncomes = 0;
+    for (const key in incomesState) {
+      if (key !== "loading") {
+        calculatedTotalIncomes += sumSeries(
+          Object.values(incomesState[key] as unknown as Array<number>),
+        );
       }
     }
-  }, [categories, data, incomes]);
+    setTotalIncomes(calculatedTotalIncomes);
+  }, [incomesState]);
 
-  return total;
+  return { ...total, totalIncomes, totalExpenses };
 };
 
 export default useData;

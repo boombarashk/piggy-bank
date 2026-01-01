@@ -37,11 +37,13 @@ export type TData = {
   colors: Partial<TColor>;
   year: string;
   yearsCount: number;
-  monthsCount: number;
+  months: string[];
   incomesByMonths: TIncome;
   expensesByMonths: TExpense;
-  expensesByCategories: Record<string, TExpense[]>;
+  expensesByCategories: Record<string, number>;
   noEmptyCategories: Array<TCategory>;
+  totalIncomes: number;
+  totalExpenses: number;
 };
 
 export type TCategoriesState = {

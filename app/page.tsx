@@ -16,16 +16,18 @@ function HomePage() {
     year,
     expensesByMonths,
     incomesByMonths,
-    monthsCount = 1,
+    months,
+    totalIncomes,
+    totalExpenses,
   } = useData();
 
-  if (!expensesByMonths) return null;
-
-  const expensesByMonthsValues = Object.values(expensesByMonths);
+  const expensesByMonthsValues = Object.values(expensesByMonths ?? {});
   const incomesByMonthsValues: number[] = Object.values(incomesByMonths ?? {});
+
   const isIncomesDefined = incomesByMonthsValues?.find((i) => i > 0);
-  let totalIncomes = 0;
-  const totalExpenses = sumSeries(expensesByMonthsValues);
+
+  let currentYearIncomes = 0;
+  const currentYearExpenses = sumSeries(expensesByMonthsValues);
 
   const series: SeriesOptionsType[] = [
     {
@@ -43,7 +45,7 @@ function HomePage() {
       data: incomesByMonthsValues,
       colors: [BG_INCOME_COLOR],
     });
-    totalIncomes = sumSeries(incomesByMonthsValues);
+    currentYearIncomes = sumSeries(incomesByMonthsValues);
   }
 
   const chartOptions: Options = {
@@ -57,9 +59,7 @@ function HomePage() {
       text: isIncomesDefined ? "Финансы" : `Расходы за ${year} год`,
     },
     xAxis: {
-      categories: MONTHS_RU.filter((_, ind) =>
-        Object.keys(expensesByMonths).includes(`${ind}`),
-      ),
+      categories: MONTHS_RU.filter((_, ind) => months?.includes(`${ind}`)),
     },
     yAxis: {
       title: {
@@ -78,22 +78,37 @@ function HomePage() {
   };
   return (
     <>
-      <HighChart options={chartOptions} />
+      {year && <HighChart options={chartOptions} />}
 
-      <p>
-        &#931; расходов за текущий период:{" "}
-        <b>{formatter.format(totalExpenses)}</b> (ср. расход в месяц{" "}
-        <b>{formatter.format(totalExpenses / monthsCount)}</b>)
-      </p>
-
-      {isIncomesDefined && (
-        <>
-          <p>
-            &#931; доходов: <b>{formatter.format(totalIncomes)}</b>
-          </p>
-          Итого: <b>{formatter.format(totalIncomes - totalExpenses)}</b>
-        </>
+      {currentYearExpenses > 0 && (
+        <p>
+          &#931; расходов за текущий год:{" "}
+          <b>{formatter.format(currentYearExpenses)}</b>{" "}
+          {expensesByMonthsValues.length > 2 && (
+            <>
+              (ср. расход в месяц{" "}
+              <b>
+                {formatter.format(
+                  currentYearExpenses / expensesByMonthsValues.length,
+                )}
+              </b>
+              )
+            </>
+          )}
+        </p>
       )}
+
+      {Number(isIncomesDefined) > 0 && (
+        <p>
+          &#931; доходов за текущий год:{" "}
+          <b>{formatter.format(currentYearIncomes)}</b>
+        </p>
+      )}
+
+      <>
+        Остаток средств:{" "}
+        <b>{formatter.format(Number(totalIncomes) - Number(totalExpenses))}</b>
+      </>
     </>
   );
 }
