@@ -1,23 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Chart as HighChart } from "@highcharts/react";
 
 import { Pie } from "@highcharts/react/series";
 import Head from "next/head";
-import { CURRENT_MONTH_IND, MONTHS_RU_SHORT, POINT_FORMAT } from "../../consts";
+import { MONTHS_RU_SHORT, POINT_FORMAT } from "../../consts";
 import useData from "@/services/useData";
+import {
+  useAppDispatch,
+  useExpensesSelector,
+  useMonthSelector,
+  useYearSelector,
+} from "../../store";
+import { setSelectedMonth } from "@/services/reducers/options";
 import NoData from "@/components/NoData/NoData";
 import SubTabs from "@/components/SubTabs/SubTabs";
-import { useExpensesSelector } from "../../store";
+import { TExpense } from "../../types";
 
 const Chart = (): React.ReactNode => {
+  const selectedYear = useSelector(useYearSelector);
+  const selectedMonth = useSelector(useMonthSelector);
   const data = useSelector(useExpensesSelector);
-  const { year, noEmptyCategories, colors } = useData();
+  const { noEmptyCategories, colors } = useData();
 
-  const expenses = year ? data?.[year] : {};
+  const dispatch = useAppDispatch();
 
-  const [selectedMonth, setSelectedMonth] = useState(CURRENT_MONTH_IND);
+  const [expenses, setExpenses] = useState<TExpense>({});
+
+  useEffect(() => {
+    if (data && data[selectedYear]) {
+      setExpenses(data[selectedYear]);
+
+      const months = Object.keys(expenses ?? {});
+      if (months.length > 0) {
+        dispatch(setSelectedMonth(months[months.length - 1]));
+      }
+    }
+  }, [dispatch, data, selectedYear, expenses]);
 
   if (!expenses || !expenses[selectedMonth]) return <NoData />;
 
@@ -42,7 +62,7 @@ const Chart = (): React.ReactNode => {
           value: month,
           text: MONTHS_RU_SHORT[Number(month)],
           handleClick: () => {
-            setSelectedMonth(month);
+            dispatch(setSelectedMonth(month));
           },
         }))}
       />

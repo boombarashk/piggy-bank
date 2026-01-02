@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { CURRENT_YEAR, DEFAULT_COLORS } from "../consts";
+import { DEFAULT_COLORS } from "../consts";
 import { getCategoriesData } from "./reducers/categories";
 import { getExpensesData } from "./reducers/expenses";
 import { getIncomes } from "./reducers/incomes";
@@ -12,6 +12,7 @@ import {
   useCategoriesSelector,
   useExpensesSelector,
   useIncomesSelector,
+  useYearSelector,
 } from "../store";
 
 export const sumSeries = (arr: number[]): number =>
@@ -22,12 +23,13 @@ const useData = (): Partial<TData> => {
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
   const [totalIncomes, setTotalIncomes] = useState<number>(0);
 
+  const selectedYear = useSelector(useYearSelector);
   const data = useSelector(useExpensesSelector);
   const categories: TCategory[] = useSelector(useCategoriesSelector);
   const incomesState = useSelector(useIncomesSelector);
   const incomes = useMemo(
-    () => incomesState?.[CURRENT_YEAR] ?? {},
-    [incomesState],
+    () => incomesState?.[selectedYear] ?? {},
+    [incomesState, selectedYear],
   );
 
   const dispatch = useAppDispatch();
@@ -38,7 +40,7 @@ const useData = (): Partial<TData> => {
   }, [dispatch]);
 
   useEffect(() => {
-    const expenses = data?.[CURRENT_YEAR] as unknown as Record<
+    const expenses = data?.[selectedYear] as unknown as Record<
       string,
       TExpense
     >;
@@ -46,12 +48,12 @@ const useData = (): Partial<TData> => {
       ...Object.keys(data ?? {}),
       ...Object.keys(incomesState).filter((key) => key !== "loading"),
     ]);
-    const yearsCount: number = setYears.size;
+
     const setMonths = new Set([
       ...Object.keys(incomes),
       ...Object.keys(expenses ?? {}),
     ]);
-    const months = yearsCount > 0 ? [...setMonths] : [];
+    const months = setYears.size > 0 ? [...setMonths] : [];
 
     const colors: Partial<TColor> = {};
 
@@ -81,9 +83,8 @@ const useData = (): Partial<TData> => {
         }
 
         setTotal({
-          year: CURRENT_YEAR,
           colors,
-          yearsCount,
+          years: [...setYears].sort(),
           months,
           expensesByMonths,
           expensesByCategories,

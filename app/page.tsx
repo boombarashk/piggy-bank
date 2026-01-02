@@ -1,4 +1,5 @@
 "use client";
+import { useSelector } from "react-redux";
 import type { Options, SeriesOptionsType } from "highcharts";
 import { Chart as HighChart } from "@highcharts/react";
 import {
@@ -9,11 +10,12 @@ import {
   POINT_FORMAT,
   POINT_FORMAT_WITH_NAME,
 } from "../consts";
+import { useYearSelector } from "../store";
 import useData, { sumSeries } from "@/services/useData";
 
 function HomePage() {
+  const selectedYear = useSelector(useYearSelector);
   const {
-    year,
     expensesByMonths,
     incomesByMonths,
     months,
@@ -56,7 +58,7 @@ function HomePage() {
       type: "column",
     },
     title: {
-      text: isIncomesDefined ? "Финансы" : `Расходы за ${year} год`,
+      text: isIncomesDefined ? "Финансы" : `Расходы за ${selectedYear} год`,
     },
     xAxis: {
       categories: MONTHS_RU.filter((_, ind) => months?.includes(`${ind}`)),
@@ -78,7 +80,7 @@ function HomePage() {
   };
   return (
     <>
-      {year && <HighChart options={chartOptions} />}
+      {selectedYear && <HighChart options={chartOptions} />}
 
       {currentYearExpenses > 0 && (
         <p>

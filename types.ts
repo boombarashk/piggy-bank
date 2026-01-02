@@ -35,8 +35,7 @@ export type TNewExpense = {
 
 export type TData = {
   colors: Partial<TColor>;
-  year: string;
-  yearsCount: number;
+  years: string[];
   months: string[];
   incomesByMonths: TIncome;
   expensesByMonths: TExpense;

@@ -8,14 +8,10 @@ import {
   useCategoriesSelector,
   useExpensesSelector,
   useLoadingSelector,
+  useYearSelector,
 } from "../../store";
 import type { TExpense, TFormFieldsExpense } from "../../types";
-import {
-  CURRENT_MONTH_IND,
-  CURRENT_YEAR,
-  MONTHS_RU,
-  formatter,
-} from "../../consts";
+import { CURRENT_MONTH_IND, MONTHS_RU, formatter } from "../../consts";
 import { addExpense, saveExpensesData } from "@/services/reducers/expenses";
 import MonthSelect from "@/components/MonthSelect/MonthSelect";
 import Button from "@/components/Button/Button";
@@ -42,17 +38,18 @@ function Expenses(): React.ReactNode | null {
   const disableBtn =
     !watcher.category || !watcher.expense || Number(watcher.expense) <= 0;
 
+  const selectedYear = useSelector(useYearSelector);
   const data = useSelector(useExpensesSelector);
   const categories = useSelector(useCategoriesSelector);
   const loading = useSelector(useLoadingSelector);
 
   const { noEmptyCategories, expensesByMonths } = useData();
 
-  const expenses = data?.[CURRENT_YEAR] ?? {};
-
-  const monthsCount: number = Object.values(expensesByMonths ?? {}).filter(
+  const expenses = data?.[selectedYear] ?? {};
+  const noEmptyExpensesByMonth = Object.values(expensesByMonths ?? {}).filter(
     (sum) => sum > 0,
-  ).length;
+  );
+  const monthsCount: number = noEmptyExpensesByMonth.length;
 
   // Сохранение данных в файл
   const handleSave = useCallback(
@@ -60,7 +57,7 @@ function Expenses(): React.ReactNode | null {
       if (formValues.month && formValues.category && formValues.expense) {
         const newData = addExpense({
           data,
-          year: CURRENT_YEAR,
+          year: selectedYear,
           month: Number(formValues.month),
           categoryId: formValues.category,
           sum: Number(formValues.expense),
@@ -69,7 +66,7 @@ function Expenses(): React.ReactNode | null {
         dispatch(saveExpensesData(newData));
       }
     },
-    [data, dispatch, reset],
+    [data, dispatch, reset, selectedYear],
   );
 
   return (
@@ -165,7 +162,7 @@ function Expenses(): React.ReactNode | null {
             {expensesByMonths && Object.keys(expensesByMonths) && (
               <>
                 <div className={styles.total} />
-                {Object.values(expensesByMonths).map((totalMonth, ind) => (
+                {noEmptyExpensesByMonth.map((totalMonth, ind) => (
                   <div className={styles.total} key={`total-${ind}`}>
                     {formatter.format(totalMonth)}
                   </div>

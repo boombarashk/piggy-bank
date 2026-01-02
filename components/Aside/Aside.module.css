@@ -1,0 +1,16 @@
+.aside {
+  position: fixed;
+  right: 0;
+  top: 5vh;
+  background-color: white;
+  padding: 1rem 1.5rem 1rem 1rem;
+  border-radius: 12px 0 0 12px;
+  box-shadow: 10px 0px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.aside .current {
+  cursor: text;
+}

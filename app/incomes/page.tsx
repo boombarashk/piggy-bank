@@ -3,30 +3,32 @@ import React, { useCallback, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import classNames from "classnames";
-import { useAppDispatch, useIncomesSelector } from "../../store";
 import {
-  CURRENT_MONTH_IND,
-  CURRENT_YEAR,
-  formatter,
-  MONTHS_RU,
-} from "../../consts";
+  useAppDispatch,
+  useIncomesSelector,
+  useYearSelector,
+} from "../../store";
+import { CURRENT_MONTH_IND, formatter, MONTHS_RU } from "../../consts";
 import {
   addIncome,
   getIncomes,
   saveIncomes,
 } from "@/services/reducers/incomes";
+import { sumSeries } from "@/services/useData";
 import Button from "@/components/Button/Button";
 import MonthSelect from "@/components/MonthSelect/MonthSelect";
 import NoData from "@/components/NoData/NoData";
-import { TFormFieldsIncome } from "../../types";
+import type { TFormFieldsIncome } from "../../types";
 
 import styles from "./Incomes.module.css";
-import { sumSeries } from "@/services/useData";
 
 export default function Incomes() {
   const { loading, ...rest } = useSelector(useIncomesSelector);
-  const year = CURRENT_YEAR;
-  const incomes = useMemo(() => rest?.[year] ?? {}, [rest, year]);
+  const selectedYear = useSelector(useYearSelector);
+  const incomes = useMemo(
+    () => rest?.[selectedYear] ?? {},
+    [rest, selectedYear],
+  );
   const months = Object.keys(incomes);
 
   const dispatch = useAppDispatch();
@@ -52,7 +54,7 @@ export default function Incomes() {
           saveIncomes(
             addIncome({
               data: rest,
-              year,
+              year: selectedYear,
               ...values,
             }),
           ),
@@ -60,7 +62,7 @@ export default function Incomes() {
         reset();
       }
     },
-    [dispatch, reset, rest, year],
+    [dispatch, reset, rest, selectedYear],
   );
 
   return (

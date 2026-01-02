@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { Istok_Web } from "next/font/google";
 import Head from "next/head";
 import { useFirstLoad } from "@/services/useFirstLoad";
+import Aside from "@/components/Aside/Aside";
 import Tabs from "@/components/Tabs/Tabs";
 import { store } from "../store";
 import "./styles/global.css";
@@ -37,6 +38,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <body className={istokWeb.className} suppressHydrationWarning>
         <div>
           <Provider store={store}>
+            <Aside />
             <main className="container">
               <Tabs />
 
