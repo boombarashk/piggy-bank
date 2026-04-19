@@ -30,6 +30,9 @@ function HomePage() {
 
   let currentYearIncomes = 0;
   const currentYearExpenses = sumSeries(expensesByMonthsValues);
+  const midMonthExpense =
+    sumSeries(expensesByMonthsValues.slice(0, -1)) /
+    (expensesByMonthsValues.length - 1);
 
   const series: SeriesOptionsType[] = [
     {
@@ -86,15 +89,9 @@ function HomePage() {
         <p>
           &#931; расходов за текущий год:{" "}
           <b>{formatter.format(currentYearExpenses)}</b>{" "}
-          {expensesByMonthsValues.length > 2 && (
+          {expensesByMonthsValues.length > 1 && (
             <>
-              (ср. расход в месяц{" "}
-              <b>
-                {formatter.format(
-                  currentYearExpenses / expensesByMonthsValues.length,
-                )}
-              </b>
-              )
+              (ср. расход в месяц <b>{formatter.format(midMonthExpense)}</b>)
             </>
           )}
         </p>
